@@ -5,8 +5,8 @@ from server.app.schemas.category import CategoryResponse
 
 class ProductBase(BaseModel):
     name: str = Field(..., min_length=5, max_length=250, description="Product name")
-    description: Optional[str] = Field(None, description="Product description")
-    price: float = Field(..., gt=0, description="Product price")
+    description: str = Field(None, description="Product description")
+    price: int = Field(..., gt=0, description="Product price")
     category_id: int = Field(..., description="category id")
     image_url: Optional[str] = Field(None, description="Product image url")
 
@@ -16,7 +16,7 @@ class ProductCreate(ProductBase):
 class ProductResponse(BaseModel):
     id: int = Field(..., description="Product id")
     name: str
-    description: Optional[str]
+    description: str
     price: int
     category_id: int
     image_url: Optional[str]

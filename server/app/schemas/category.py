@@ -1,8 +1,10 @@
 from pydantic import BaseModel, Field
+import re
 
 class CategoryBase(BaseModel):
     name: str = Field(..., min_length=5, max_length=25, description="Name of category")
-    slug: str = Field(..., min_length=5, max_length=25, description="URl - friendly category name")
+    slug: str = Field(..., min_length=5, max_length=25, pattern=r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+
 
 class CategoryCreate(CategoryBase):
     pass
