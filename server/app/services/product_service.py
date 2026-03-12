@@ -1,5 +1,3 @@
-from itertools import product
-
 from fastapi import HTTPException, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
@@ -39,9 +37,9 @@ class ProductService:
         return ProductResponse.model_validate(product)
 
     async def create(self, product_data: ProductCreate) -> ProductResponse:
-        category = await self.category_crud.create(product_data.category_id)
+        category = await self.category_crud.get_by_id(product_data.category_id)
         if category is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found")
+            raise HTTPException(status_code=404, detail="Category not found")
         product = await self.product_crud.create(product_data)
         return ProductResponse.model_validate(product)
 

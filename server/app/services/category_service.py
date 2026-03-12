@@ -33,8 +33,11 @@ class CategoryService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found by slug")
         return CategoryResponse.model_validate(category)
 
-    async def create(self, category: CategoryCreate) -> CategoryResponse:
-        category = await self.crud.create(category)
+    async def create(self, category_data: CategoryCreate) -> CategoryResponse:
+        existing = await self.crud.get_by_name(category_data.name)
+        if existing:
+            raise HTTPException(status_code=409, detail="Category already exists")
+        category = await self.crud.create(category_data)
         return CategoryResponse.model_validate(category)
 
     async def update(self, category_id: int, data: CategoryCreate) -> CategoryResponse:
@@ -45,10 +48,10 @@ class CategoryService:
 
         return CategoryResponse.model_validate(category)
 
-    async def delete(self, category_id: int) -> CategoryResponse:
+    async def delete(self, category_id: int) -> bool:
         category = await self.crud.delete(category_id)
 
         if not category:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found by category_id")
 
-        return CategoryResponse.model_validate(category)
+        return True

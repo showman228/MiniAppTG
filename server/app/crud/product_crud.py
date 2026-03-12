@@ -1,3 +1,4 @@
+from server.app.models import Category
 from server.app.models.product import Product
 from server.app.schemas.product import ProductCreate
 
@@ -22,6 +23,12 @@ class CRUDProduct:
     async def get_by_id(self, product_id: int) -> Optional[Product]:
         product = await self.db.execute(select(Product).where(Product.id == product_id))
         return product.scalars().one_or_none()
+
+    async def get_by_ids(self, product_ids: List[int]) -> List[Product]:
+        result = await self.db.execute(
+            select(Product).where(Product.id.in_(product_ids))
+        )
+        return list(result.scalars().all())
 
     async def get_by_name(self, name: str) -> Optional[Product]:
         product = await self.db.execute(select(Product).where(Product.name == name))

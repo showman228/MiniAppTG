@@ -34,14 +34,13 @@ class OrderService:
         return OrderResponse.model_validate(order)
 
     async def update_order(self, order_id: int, order_data: OrderCreate) -> OrderResponse:
-        order = await self.order_crud.get_by_id(order_id)
+        order = await self.order_crud.update(order_id, order_data)
         if order is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found by order_id")
-        order = await self.order_crud.update(order_id, order_data)
         return OrderResponse.model_validate(order)
 
     async def delete_order(self, order_id: int) -> bool:
-        order = await self.order_crud.get_by_id(order_id)
+        order = await self.order_crud.delete(order_id)
         if order is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found by order_id")
         return True

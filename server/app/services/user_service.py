@@ -34,18 +34,17 @@ class UserService:
         return UserResponse.model_validate(user)
 
     async def create_user(self, user_data: UserCreate) -> UserResponse:
-        user = self.user_crud.create(user_data)
+        user = await self.user_crud.create(user_data)
         return UserResponse.model_validate(user)
 
     async def update_user(self, user_id: int, user_data: UserCreate) -> UserResponse:
-        user = self.user_crud.get_by_id(user_id)
+        user = await self.user_crud.update(user_id, user_data)
         if user is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found by user_id")
-
         return UserResponse.model_validate(user)
 
     async def delete_user(self, user_id: int) -> bool:
-        user = self.user_crud.get_by_id(user_id)
+        user = await self.user_crud.delete(user_id)
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found by user_id")
         return True

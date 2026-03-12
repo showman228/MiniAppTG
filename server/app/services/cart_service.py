@@ -41,10 +41,7 @@ class CartService:
 
         product_ids = list(cart_dict.keys())
 
-        products = []
-        for product_id in product_ids:
-            product = await self.product_crud.get_by_id(product_id)
-            products.append(product)
+        products = await self.product_crud.get_by_ids(product_ids)
 
         products_dict = {product.id: product for product in products}
 
