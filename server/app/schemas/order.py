@@ -9,7 +9,6 @@ class OrderBase(BaseModel):
     price: int = Field(..., gt=0, description="Цена за товар")
     total_price: int = Field(..., gt=0, description="Общая сумма товаров")
 
-
 class OrderCreate(OrderBase):
     pass
 
