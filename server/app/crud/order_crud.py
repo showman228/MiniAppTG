@@ -31,9 +31,6 @@ class CRUDOrder:
             total_price=order_data.total_price
         )
 
-        if self.get_by_user_id(order.id) is None:
-            return None
-
         self.db.add(order)
         await self.db.commit()
         await self.db.refresh(order)
@@ -43,7 +40,7 @@ class CRUDOrder:
     async def update(self, order_id: int, order_data: OrderCreate) -> Optional[Order]:
         order = await self.get_by_id(order_id)
 
-        if self.get_by_user_id(order.id) is None:
+        if order is None:
             return None
 
         for field, value in order_data.model_dump(exclude_unset=True).items():
@@ -57,7 +54,7 @@ class CRUDOrder:
     async def delete(self, order_id: int) -> bool:
         order = await self.get_by_id(order_id)
 
-        if self.get_by_user_id(order.id) is None:
+        if order is None:
             return False
 
         await self.db.delete(order)

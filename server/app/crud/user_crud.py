@@ -16,24 +16,21 @@ class CRUDUser:
 
     async def get_by_id(self, user_id: int) -> Optional[User]:
         user = await self.db.execute(select(User).where(User.id == user_id))
-        return await user.scalars().one_or_none()
+        return user.scalars().one_or_none()
 
     async def get_by_email(self, email: str) -> Optional[User]:
         user = await self.db.execute(select(User).where(User.email == email))
-        return await user.scalars().one_or_none()
+        return user.scalars().one_or_none()
 
     async def get_by_username(self, username: str) -> Optional[User]:
         user = await self.db.execute(select(User).where(User.username == username))
-        return await user.scalars().one_or_none()
+        return user.scalars().one_or_none()
 
     async def create(self, user_data: UserCreate) -> Optional[User]:
         user = User(
-            name=user_data.name,
+            username=user_data.username,
             email=user_data.email
         )
-
-        if self.get_by_username(user_data.username) is not None:
-            return None
 
         self.db.add(user)
         await self.db.commit()
@@ -43,7 +40,7 @@ class CRUDUser:
     async def update(self, user_id: int, user_data: UserCreate) -> Optional[User]:
         user = await self.get_by_id(user_id)
 
-        if self.get_by_id(user_id) is None:
+        if user is None:
             return None
 
         for field, value in user_data.model_dump(exclude_unset=True).items():
@@ -57,7 +54,7 @@ class CRUDUser:
     async def delete(self, user_id: int) -> bool:
         user = await self.get_by_id(user_id)
 
-        if self.get_by_id(user_id) is None:
+        if user is None:
             return False
 
         await self.db.delete(user)

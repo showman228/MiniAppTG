@@ -39,9 +39,6 @@ class CRUDProduct:
             category_id=product_data.category_id
         )
 
-        if self.get_by_name(product_data.name):
-            return None
-
         self.db.add(product)
         await self.db.commit()
         await self.db.refresh(product)

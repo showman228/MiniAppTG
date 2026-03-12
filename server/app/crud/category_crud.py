@@ -30,8 +30,6 @@ class CRUDCategory:
             name=category_data.name,
             slug=category_data.slug,
         )
-        if self.get_by_name(category.name) is None:
-            return None
 
         self.db.add(category)
         await self.db.commit()
