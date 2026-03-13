@@ -35,12 +35,12 @@ async def add_to_cart(request: AddToCartRequest, db: AsyncSession = Depends(get_
     update_cart = await service.add_to_cart(cart_dict=request.cart, item=item)
     return {"cart": update_cart}
 
-@router.post("", response_model=CartResponse, status_code=status.HTTP_200_OK)
+@router.post("/details", response_model=CartResponse, status_code=status.HTTP_200_OK)
 async def get_cart(cart_data: Dict[int, int], db: AsyncSession = Depends(get_db)):
     service = CartService(db)
     return await service.get_details_of_cart(cart_data)
 
-router.put("/update", status_code=status.HTTP_200_OK, response_model=CartResponse)
+@router.put("/update", status_code=status.HTTP_200_OK, response_model=CartResponse)
 async def update_cart(request: UpdateCartRequest, db: AsyncSession = Depends(get_db)):
     service = CartService(db)
     item = CartItemUpdate(
@@ -50,7 +50,7 @@ async def update_cart(request: UpdateCartRequest, db: AsyncSession = Depends(get
     updated_cart = await service.update_cart(cart_dict=request.cart, item=item)
     return {"cart": updated_cart}
 
-router.delete("/delete/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/delete/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def remove_from_cart(product_id: int, request: RemoveFromCartRequest, db: AsyncSession = Depends(get_db)):
     service = CartService(db)
     update_cart = await service.remove_cart(product_id=product_id, cart_dict=request.cart)

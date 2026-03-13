@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from typing import List
 
 from server.app.database import get_db
 from server.app.services.order_service import OrderService
@@ -35,7 +36,7 @@ async def get_order(order_id: int, db: AsyncSession = Depends(get_db)):
     service = OrderService(db)
     return await service.get_by_id(order_id)
 
-@router.get("/users/{user_id}", response_model=OrderResponse, status_code=status.HTTP_200_OK)
+@router.get("/users/{user_id}", response_model=List[OrderResponse], status_code=status.HTTP_200_OK)
 async def get_user_orders(user_id: int, db: AsyncSession = Depends(get_db)):
     service = OrderService(db)
     return await service.get_order_by_user_id(user_id)
