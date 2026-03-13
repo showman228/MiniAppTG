@@ -1,6 +1,6 @@
 from server.app.crud.order_crud import CRUDOrder
 from server.app.crud.user_crud import CRUDUser
-from server.app.schemas.order import OrderCreate, OrderResponse
+from server.app.schemas.order import OrderCreate, OrderResponse, OrderUpdate
 
 from typing import List
 
@@ -33,7 +33,7 @@ class OrderService:
         order = await self.order_crud.create(order_data)
         return OrderResponse.model_validate(order)
 
-    async def update_order(self, order_id: int, order_data: OrderCreate) -> OrderResponse:
+    async def update_order(self, order_id: int, order_data: OrderUpdate) -> OrderResponse:
         order = await self.order_crud.update(order_id, order_data)
         if order is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found by order_id")

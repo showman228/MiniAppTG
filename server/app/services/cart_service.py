@@ -23,7 +23,7 @@ class CartService:
 
         return cart_dict
 
-    async def update_cart(self, cart_dict: Dict[int, int], item: CartItemCreate) -> Dict[int, int]:
+    async def update_cart(self, cart_dict: Dict[int, int], item: CartItemUpdate) -> Dict[int, int]:
         if item.product_id not in cart_dict:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found in cart")
         cart_dict[item.product_id] = item.quantity

@@ -12,6 +12,9 @@ class OrderBase(BaseModel):
 class OrderCreate(OrderBase):
     pass
 
+class OrderUpdate(OrderBase):
+    pass
+
 class OrderResponse(BaseModel):
     id: int = Field(..., description="Order ID")
     user_id: int

@@ -1,5 +1,5 @@
 from server.app.models.order import Order
-from server.app.schemas.order import OrderCreate
+from server.app.schemas.order import OrderCreate, OrderUpdate
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -37,7 +37,7 @@ class CRUDOrder:
 
         return order
 
-    async def update(self, order_id: int, order_data: OrderCreate) -> Optional[Order]:
+    async def update(self, order_id: int, order_data: OrderUpdate) -> Optional[Order]:
         order = await self.get_by_id(order_id)
 
         if order is None:
