@@ -5,8 +5,8 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
+    telegram_id = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
 
     def __repr__(self):
-        return f"<User(id={self.id}, username={self.username}, email={self.email})>"
+        return f"<User(id={self.id}, username={self.telegram_id}, email={self.email})>"

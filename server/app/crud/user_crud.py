@@ -22,13 +22,13 @@ class CRUDUser:
         user = await self.db.execute(select(User).where(User.email == email))
         return user.scalars().one_or_none()
 
-    async def get_by_username(self, username: str) -> Optional[User]:
-        user = await self.db.execute(select(User).where(User.username == username))
+    async def get_by_telegram_id(self, telegram_id: str) -> Optional[User]:
+        user = await self.db.execute(select(User).where(User.telegram_id == telegram_id))
         return user.scalars().one_or_none()
 
     async def create(self, user_data: UserCreate) -> Optional[User]:
         user = User(
-            username=user_data.username,
+            telegram_id=user_data.telegram_id,
             email=user_data.email
         )
 
