@@ -9,6 +9,11 @@ class Settings(BaseSettings):
     DEBUG: bool = True  # ВЫКЛЮЧИТЬ НАХУЙ ПРИ ПРОДАКШЕНЕ
     DATABASE_URL: str = Field(default="postgresql+asyncpg://postgres:postgres@db:5432/mini_app_db", env="DATABASE_URL")
 
+    SECRET_KEY: ClassVar[str] = os.getenv("SECRET_KEY")
+    BOT_TOKEN: ClassVar[str] = os.getenv("BOT_TOKEN")
+    ALGORITHM: ClassVar[str] = "HS256"
+    TOKEN_EXPIRATION: int = 60 * 24 # токен действителен 24 часа, потом он обновляется
+
     CORS_ORIGINS: list[str] = [
         "http://localhost:5173",
         "http://localhost:3000",

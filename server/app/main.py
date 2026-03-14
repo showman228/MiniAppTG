@@ -6,6 +6,8 @@ from fastapi.staticfiles import StaticFiles
 
 from server.app.database import init_db
 from server.app.config import settings
+
+from server.app.routers.auth import router as auth_router
 from server.app.routers.category import router as category_router
 from server.app.routers.product import router as product_router
 from server.app.routers.cart import router as cart_router
@@ -28,6 +30,7 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+app.include_router(auth_router)
 app.include_router(category_router)
 app.include_router(product_router)
 app.include_router(cart_router)

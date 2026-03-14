@@ -2,6 +2,9 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 
+from server.app.models.user import User
+from server.app.auth.dependencies import get_current_user
+
 from server.app.database import get_db
 from server.app.services.order_service import OrderService
 from server.app.schemas.order import OrderListResponse, OrderResponse, OrderCreate, OrderUpdate
@@ -12,7 +15,8 @@ router = APIRouter(
 )
 
 @router.post("/create", status_code=status.HTTP_201_CREATED)
-async def create_order(order_data: OrderCreate, db: AsyncSession = Depends(get_db)):
+async def create_order(order_data: OrderCreate, db: AsyncSession = Depends(get_db), current_user: User = Depends(get_current_user)):
+    order_data.user_id = current_user.id
     service = OrderService(db)
     return await service.create_order(order_data)
 
