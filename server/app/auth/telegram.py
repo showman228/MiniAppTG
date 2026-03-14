@@ -14,8 +14,11 @@ def verify_telegram_init_data(init_data: str) -> dict:
     if not received_hash:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing hash")
 
+    auth_date = parsed.get("auth_date")
+    if not auth_date:
+        raise HTTPException(status_code=401, detail="Missing auth_date")
+    auth_date = int(auth_date)
 
-    auth_date = int(parsed.get("auth_date", None))
     now = int(datetime.now(UTC).timestamp())
 
     if now - auth_date > settings.TELEGRAM_TOKEN_EXPIRATION:

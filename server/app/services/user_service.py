@@ -21,12 +21,6 @@ class UserService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found by user_id")
         return UserResponse.model_validate(user)
 
-    async def get_user_by_email(self, email: str) -> UserResponse:
-        user = await self.user_crud.get_by_email(email)
-        if user is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found by email")
-        return UserResponse.model_validate(user)
-
     async def get_user_by_telegram_id(self, telegram_id: str) -> UserResponse:
         user = await self.user_crud.get_by_telegram_id(telegram_id)
         if user is None:

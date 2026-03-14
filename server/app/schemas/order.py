@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 class OrderBase(BaseModel):
     user_id: int = Field(..., description="user id")
@@ -10,7 +10,7 @@ class OrderBase(BaseModel):
     total_price: int = Field(..., gt=0, description="Общая сумма товаров")
 
 class OrderCreate(OrderBase):
-    pass
+    user_id: Optional[int] = None
 
 class OrderUpdate(OrderBase):
     pass

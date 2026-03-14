@@ -1,8 +1,10 @@
 from pydantic import BaseModel, Field, EmailStr
+from typing import Optional
 
 class UserBase(BaseModel):
-    telegram_id: str = Field(..., min_length=5, max_length=30, description="@username")
-    email: EmailStr = Field(..., description="email address by user")
+    telegram_id: int  # это число, не строка
+    username: Optional[str] = None
+    firstname: Optional[str] = None
 
 class UserCreate(UserBase):
     pass

@@ -39,7 +39,8 @@ async def verify_auth(
     if user is None:
         user = await crud.create(UserCreate(
             telegram_id=telegram_id,
-            email=tg_user.get('email')
+            firstname=tg_user.get('firstname'),
+            username=tg_user.get('username')
         ))
 
     token = create_access_token(user_id=user.id, telegram_id=telegram_id)

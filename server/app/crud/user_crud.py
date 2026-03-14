@@ -18,10 +18,6 @@ class CRUDUser:
         user = await self.db.execute(select(User).where(User.id == user_id))
         return user.scalars().one_or_none()
 
-    async def get_by_email(self, email: str) -> Optional[User]:
-        user = await self.db.execute(select(User).where(User.email == email))
-        return user.scalars().one_or_none()
-
     async def get_by_telegram_id(self, telegram_id: str) -> Optional[User]:
         user = await self.db.execute(select(User).where(User.telegram_id == telegram_id))
         return user.scalars().one_or_none()
@@ -29,7 +25,8 @@ class CRUDUser:
     async def create(self, user_data: UserCreate) -> Optional[User]:
         user = User(
             telegram_id=user_data.telegram_id,
-            email=user_data.email
+            username=user_data.username,
+            firstname=user_data.firstname
         )
 
         self.db.add(user)

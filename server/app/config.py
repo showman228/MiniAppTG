@@ -9,10 +9,11 @@ class Settings(BaseSettings):
     DEBUG: bool = True  # ВЫКЛЮЧИТЬ НАХУЙ ПРИ ПРОДАКШЕНЕ
     DATABASE_URL: str = Field(default="postgresql+asyncpg://postgres:postgres@db:5432/mini_app_db", env="DATABASE_URL")
 
-    SECRET_KEY: ClassVar[str] = os.getenv("SECRET_KEY")
-    BOT_TOKEN: ClassVar[str] = os.getenv("BOT_TOKEN")
+    SECRET_KEY: str = Field(..., env="SECRET_KEY")
+    BOT_TOKEN: str = Field(..., env="BOT_TOKEN")
     ALGORITHM: ClassVar[str] = "HS256"
-    TOKEN_EXPIRATION: int = 60 * 24 # токен действителен 24 часа, потом он обновляется
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 # токен действителен 24 часа, потом он обновляется
+    TELEGRAM_INIT_DATA_EXPIRATION: int = 86400
 
     CORS_ORIGINS: list[str] = [
         "http://localhost:5173",
@@ -21,7 +22,6 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000"
     ]
 
-    # вопрос, как сделать так, чтобы это все работало в докере????
     base_dir: ClassVar[str] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     static_path: ClassVar[str] = os.path.join(base_dir, "static")
     images_path: ClassVar[str] = os.path.join(static_path, "images")
