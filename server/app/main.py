@@ -17,7 +17,7 @@ app = FastAPI(
     title=settings.APP_NAME,
     debug=settings.DEBUG,
     docs_url="/api/docs",
-    reodocs_url="/api/redoc"
+    redoc_url="/api/redoc"
 )
 
 app.add_middleware(

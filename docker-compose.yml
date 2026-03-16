@@ -47,7 +47,7 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./server/static:/app/server/static
+      - ./server/static:/app/static
 
 volumes:
   postgres_data:

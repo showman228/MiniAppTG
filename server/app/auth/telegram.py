@@ -44,7 +44,7 @@ def verify_telegram_init_data(init_data: str) -> dict:
     ).hexdigest()
 
     if not hmac.compare_digest(expected_hash, received_hash):
-        raise HTTPException(status_code=401, detail="Invalid signature")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid signature")
 
     user_data = json.loads(parsed.get("user", "{}"))
     return user_data

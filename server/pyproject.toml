@@ -13,4 +13,4 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["app"] # укажите вашу основную папку с кодом
+packages = ["server", "server.app"] # укажите вашу основную папку с кодом

@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     BOT_TOKEN: str = Field(..., env="BOT_TOKEN")
     ALGORITHM: ClassVar[str] = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 # токен действителен 24 часа, потом он обновляется
-    TELEGRAM_INIT_DATA_EXPIRATION: int = 86400
+    TELEGRAM_TOKEN_EXPIRATION: int = 86400
 
     CORS_ORIGINS: list[str] = [
         "http://localhost:5173",

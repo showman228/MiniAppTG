@@ -7,7 +7,7 @@ class Order(Base):
     __tablename__ = "order"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("user.id"), index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), index=True)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     quantity = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
