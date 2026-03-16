@@ -1,0 +1,31 @@
+# ── Web Framework ─────────────────────────────────────────────
+fastapi==0.115.5
+uvicorn[standard]==0.32.1          # ASGI-сервер с uvloop + httptools
+
+# ── Database ───────────────────────────────────────────────────
+sqlalchemy[asyncio]==2.0.36        # Async ORM
+asyncpg==0.30.0                    # Async PostgreSQL драйвер
+alembic==1.14.0                    # Миграции БД
+
+# ── Validation & Settings ──────────────────────────────────────
+pydantic>=2.7.0,<2.10              # Совместимо с aiogram + pydantic-settings
+pydantic-settings==2.6.1           # Настройки через .env
+
+# ── Auth ───────────────────────────────────────────────────────
+python-jose[cryptography]==3.3.0   # JWT токены
+passlib[bcrypt]==1.7.4             # Хэширование паролей (для админа)
+
+# ── Telegram Bot ───────────────────────────────────────────────
+aiogram==3.15.0                    # Async Telegram Bot framework
+
+# ── HTTP Client ────────────────────────────────────────────────
+httpx==0.28.1                      # Async HTTP (для запросов к Telegram API)
+
+# ── Utils ──────────────────────────────────────────────────────
+python-multipart==0.0.20           # Загрузка файлов (фото товаров)
+pillow==11.0.0                     # Обработка изображений
+
+# ── Dev / Testing ──────────────────────────────────────────────
+pytest==8.3.4
+pytest-asyncio==0.24.0
+httpx==0.28.1                      # Тест-клиент для FastAPI
