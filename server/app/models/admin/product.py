@@ -7,4 +7,4 @@ class ProductAdmin(ModelView, model=Product):
     column_filters = [Product.price, Product.name, Product.created_at, Product.category_id]
     name = "Товар"
     name_plural = "Товары"
-    icon = "fa-solid fa-cart-shopping"
+    icon = "fa-solid fa-box"

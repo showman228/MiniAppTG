@@ -9,7 +9,7 @@ from server.app.models.admin.user import UserAdmin
 from server.app.models.admin.product import ProductAdmin
 from server.app.models.admin.order import OrderAdmin
 
-from server.app.database import init_db
+from server.app.database import init_db, engine
 from server.app.config import settings
 from server.app.auth.admin_auth import authentication_backend
 
@@ -36,7 +36,7 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-admin = Admin(app, init_db, authentication_backend=authentication_backend)
+admin = Admin(app, engine, authentication_backend=authentication_backend)
 admin.add_view(OrderAdmin)
 admin.add_view(ProductAdmin)
 admin.add_view(UserAdmin)
