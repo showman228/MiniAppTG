@@ -15,7 +15,7 @@ class Product(Base):
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
     image_url = Column(Text)
 
-    category = relationship("Category", backref="products")
+    category = relationship("Category", backref="products", lazy="selectin")
 
     def __repr__(self):
         return f"Product: {self.id}, name: {self.name}, description: {self.description}, price: {self.price}"

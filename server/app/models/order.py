@@ -14,8 +14,8 @@ class Order(Base):
     total_price = Column(Integer, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
 
-    product = relationship("Product", backref="orders")
-    user = relationship("User", backref="orders")
+    product = relationship("Product", backref="orders", lazy="selectin")
+    user = relationship("User", backref="orders", lazy="selectin")
 
     def __repr__(self):
         return f"Order(id={self.id}, product_id={self.product_id}, quantity={self.quantity})"
