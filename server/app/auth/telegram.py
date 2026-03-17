@@ -32,15 +32,15 @@ def verify_telegram_init_data(init_data: str) -> dict:
     )
 
     secret_key = hmac.new(
-        b"WebAppData",
-        settings.BOT_TOKEN.encode(),
-        hashlib.sha256
+        key=b"WebAppData",
+        msg=settings.BOT_TOKEN.encode(),
+        digestmod=hashlib.sha256
     ).digest()
 
     expected_hash = hmac.new(
-        secret_key,
-        data_check_string.encode(),
-        hashlib.sha256
+        key=secret_key,
+        msg=data_check_string.encode(),
+        digestmod=hashlib.sha256
     ).hexdigest()
 
     if not hmac.compare_digest(expected_hash, received_hash):

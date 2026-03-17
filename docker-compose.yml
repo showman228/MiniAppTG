@@ -35,8 +35,8 @@ services:
 
   app:
     build:
-      context: .
-      dockerfile: server/Dockerfile
+      context: ./server
+      dockerfile: Dockerfile
     container_name: mini_app_tg
     restart: unless-stopped
     env_file:

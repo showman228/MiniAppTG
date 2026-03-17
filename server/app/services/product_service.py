@@ -5,7 +5,8 @@ from typing import List
 from server.app.crud.category_crud import CRUDCategory
 from server.app.crud.product_crud import CRUDProduct
 from server.app.models import Product
-from server.app.schemas.product import ProductCreate, ProductResponse
+from server.app.schemas.product import ProductCreate, ProductResponse, ProductListResponse
+
 
 class ProductService:
 
