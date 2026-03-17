@@ -14,6 +14,8 @@ pydantic-settings==2.6.1           # Настройки через .env
 # ── Auth ───────────────────────────────────────────────────────
 python-jose[cryptography]==3.3.0   # JWT токены
 passlib[bcrypt]==1.7.4             # Хэширование паролей (для админа)
+itsdangerous==2.2.0                # Для админки
+sqladmin==0.23.0                   # Для админки
 
 # ── Telegram Bot ───────────────────────────────────────────────
 aiogram==3.15.0                    # Async Telegram Bot framework

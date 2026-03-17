@@ -4,8 +4,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from sqladmin import Admin
+from server.app.models.admin.user import UserAdmin
+from server.app.models.admin.product import ProductAdmin
+from server.app.models.admin.order import OrderAdmin
+
 from server.app.database import init_db
 from server.app.config import settings
+from server.app.auth.admin_auth import authentication_backend
 
 from server.app.routers.auth import router as auth_router
 from server.app.routers.category import router as category_router
@@ -29,6 +35,11 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+admin = Admin(app, init_db, authentication_backend=authentication_backend)
+admin.add_view(OrderAdmin)
+admin.add_view(ProductAdmin)
+admin.add_view(UserAdmin)
 
 app.include_router(auth_router)
 app.include_router(category_router)

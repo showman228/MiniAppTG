@@ -7,10 +7,10 @@ from pydantic import Field
 class Settings(BaseSettings):
     APP_NAME: str = "MiniAppTG"
     DEBUG: bool = True  # ВЫКЛЮЧИТЬ НАХУЙ ПРИ ПРОДАКШЕНЕ
-    DATABASE_URL: str = Field(default="postgresql+asyncpg://postgres:postgres@db:5432/mini_app_db", env="DATABASE_URL")
+    DATABASE_URL: str = os.environ.get("DATABASE_URL")
 
-    SECRET_KEY: str = Field(..., env="SECRET_KEY")
-    BOT_TOKEN: str = Field(..., env="BOT_TOKEN")
+    SECRET_KEY: str = os.environ.get("SECRET_KEY")
+    BOT_TOKEN: str = os.environ.get("BOT_TOKEN")
     ALGORITHM: ClassVar[str] = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 # токен действителен 24 часа, потом он обновляется
     TELEGRAM_TOKEN_EXPIRATION: int = 86400
