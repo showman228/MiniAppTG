@@ -9,5 +9,5 @@ export async function getProductById(productId) {
 }
 
 export async function getProductByCategoryId(categoryId) {
-    return get(`/category/${categoryId}`);
+    return get(`/products/category/${categoryId}`);
 }

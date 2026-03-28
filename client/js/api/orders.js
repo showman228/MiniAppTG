@@ -13,11 +13,11 @@ export async function getUserOrders(userId) {
 }
 
 export async function createOrder(orderData) {
-    return post("/order/create", { order_data: orderData });
+    return post("/order/create", orderData);
 }
 
 export async function updateOrder(orderId, orderData) {
-    return put(`/order/update/${orderId}`, { order_id: orderId, order_data: orderData });
+    return put(`/order/update/${orderId}`, orderData);
 }
 
 export async function deleteOrder(orderId) {

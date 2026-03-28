@@ -1,7 +1,7 @@
 import { post, put } from "./client.js"
 
 export async function addToCart(requestCart) {
-    return post("/cart/create", { request: requestCart });
+    return post("/cart/add", { request: requestCart });
 }
 
 export async function getCartDetails(cartData) {
@@ -13,6 +13,6 @@ export async function updateCart(requestCart) {
 }
 
 export async function removeFromCart(requestCart) {
-    return del("/cart/remove", { request: requestCart });
+    return post("/cart/remove", { request: requestCart });
 }
 
