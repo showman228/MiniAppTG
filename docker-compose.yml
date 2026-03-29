@@ -41,13 +41,26 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - ./server/static:/app/static
+  
+  nginx:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: miniapp_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - ./server/static:/usr/share/nginx/html/static  # шарим статику FastAPI
 
 volumes:
   postgres_data:

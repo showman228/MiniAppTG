@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le désir d’être</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<aside class="side-menu" id="sideMenu" aria-hidden="true">
+  <div class="side-menu__header">
+    <h2>Навигация</h2>
+    <button class="side-menu__close" id="closeMenu" aria-label="Закрыть меню">×</button>
+  </div>
+
+  <nav class="side-menu__nav">
+    <a href="catalog.html">Каталог</a>
+    <details>
+      <summary>Покупателям</summary>
+      <a href="">Публичная оферта</a>
+      <a href="#">Информация о доставке и возврате</a>
+      <a href="#">Политика конфиденциальности</a>
+    </details>
+  </nav>
+</aside>
+
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+
+<header class="header">
+  <button class="menu" id="openMenu" aria-label="Открыть меню">
+    ☰
+  </button>
+
+  <div class="logo">
+    Le désir d’être
+  </div>
+
+  <nav class="header-nav">
+    <a class="cart nav-link" href="cart.html" aria-label="Корзина">
+      <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+        <path d="M6 7h15l-1.5 8.5a2 2 0 0 1-2 1.5H10a2 2 0 0 1-2-1.5L6 4H3" />
+        <circle cx="10" cy="20" r="1.5" />
+        <circle cx="18" cy="20" r="1.5" />
+      </svg>
+    </a>
+  </nav>
+</header>
+
+<section class="hero">
+  <img src="assets/images/ui/HERO-1.jpg" alt="Новая коллекция одежды">
+
+  <div class="hero-text">
+    <h1>NEW COLLECTION</h1>
+    <a href ="catalog.html"><button>SHOP NOW</button></a>
+  </div>
+</section>
+
+<section class="products">
+  <div class="product">
+    <img src="assets/images/products/Ballerina_t-shirt.jpg" alt="«Ballerina» t-shirt">
+    <h3>«BALLERINA» T-SHIRT</h3>
+    <p>4 500 ₽</p>
+  </div>
+
+  <div class="product">
+    <img src="assets/images/products/Carset_pants.jpg" alt="«Carset» Pants">
+    <h3>«Carset» Pants</h3>
+    <p>---₽</p>
+  </div>
+
+  <div class="product">
+    <img src="assets/images/products/Hoodie_ballet.jpg" alt="Hoodie ballet»">
+    <h3>Hoodie ballet»</h3>
+    <p>---₽</p>
+  </div>
+
+  <div class="product">
+    <img src="assets/images/products/Shirt_Noir.jpg" alt="Shirt Noir">
+    <h3>Shirt Noir</h3>
+    <p>7 500 ₽</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© Le désir d’être 2026</p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
