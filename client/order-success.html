@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Success - Le désir d’être</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shop.css" />
+</head>
+<body class="shop-body">
+  <div id="header-slot"></div>
+
+  <main class="container success-center">
+    <!-- Экран успешного заказа -->
+    <section>
+      <h1 class="page-title">✓ Order successfully placed</h1>
+      <p class="page-subtitle">Thank you for your purchase.</p>
+      <p><a class="btn btn-primary" href="catalog.html">Back to catalog</a></p>
+    </section>
+  </main>
+  <footer class="footer">
+    <p>© Le désir d’être 2026</p>
+  </footer>
+<!--  <script src="js/cart.js"></script>-->
+  <script>
+    // На странице успеха очищаем корзину и обновляем счётчик
+    localStorage.removeItem('Le désir d’être-cart');
+    renderHeader();
+  </script>
+</body>
+</html>
