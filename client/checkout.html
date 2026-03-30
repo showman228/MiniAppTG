@@ -1,55 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout - Le désir d’être</title>
+  <title>Оформление заказа - Le désir d'être</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/shop.css" />
+  <link rel="stylesheet" href="css/shop.css"/>
 </head>
 <body class="shop-body">
+
   <div id="header-slot"></div>
 
   <main class="page-section container">
-    <!-- Раздел оформления заказа -->
-    <h1 class="page-title">Checkout</h1>
+    <h1 class="page-title">Оформление заказа</h1>
 
     <section class="checkout-grid">
-      <!-- Форма данных покупателя -->
+
+      <!-- Форма покупателя -->
       <form class="card form-card" id="checkout-form">
         <div class="form-grid">
-          <label>
-            <input class="input" required placeholder="Full Name" />
-          </label>
-          <label>
-            <input class="input" required type="email" placeholder="Email" />
-          </label>
-          <label>
-            <input class="input" required placeholder="Address" />
-          </label>
-          <label>
-            <input class="input" required placeholder="City" />
-          </label>
-          <label>
-            <input class="input" required placeholder="Postal Code" />
-          </label>
-          <button class="btn btn-primary" type="submit">Place Order</button>
+          <input class="input" name="name"    required placeholder="Имя и фамилия"/>
+          <input class="input" name="email"   required type="email" placeholder="Email"/>
+          <input class="input" name="address" required placeholder="Адрес доставки"/>
+          <input class="input" name="city"    required placeholder="Город"/>
+          <input class="input" name="zip"     required placeholder="Почтовый индекс"/>
+          <button class="btn btn-primary" type="submit">Оформить заказ</button>
         </div>
       </form>
 
-      <!-- Сводка товаров и суммы заказа -->
+      <!-- Состав заказа — вставляется через checkout.js -->
       <aside class="card summary-card">
-        <h2>Order Summary</h2>
+        <h2>Состав заказа</h2>
         <ul class="summary-list" id="checkout-list"></ul>
-        <p class="total-line">Total: <span id="checkout-total">$0.00</span></p>
+        <p class="total-line">Итого: <span id="checkout-total">0 ₽</span></p>
       </aside>
+
     </section>
   </main>
+
   <footer class="footer">
-    <p>© Le désir d’être 2026</p>
+    <p>© Le désir d'être 2026</p>
   </footer>
-<!--  <script src="js/api.js"></script>-->
-<!--  <script src="js/cart.js"></script>-->
-<!--  <script src="js/checkout.js"></script>-->
+
+  <script type="module" src="js/pages/checkout.js"></script>
 </body>
 </html>

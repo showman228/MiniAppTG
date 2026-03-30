@@ -1,30 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Корзина - Le désir d’être</title>
+  <title>Корзина - Le désir d'être</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/shop.css" />
+  <link rel="stylesheet" href="css/shop.css"/>
 </head>
 <body class="shop-body">
+
   <div id="header-slot"></div>
 
   <main class="page-section container">
-    <!-- Блок корзины с товарами и итоговой стоимостью -->
-    <h1 class="page-title">Shopping Cart</h1>
+    <h1 class="page-title">Корзина</h1>
+
+    <!-- Список товаров вставляется через cart.js -->
     <div class="cart-list" id="cart-list"></div>
-    <p class="total-line">Total: <span id="cart-total">$0.00</span></p>
+
+    <p class="total-line">Итого: <span id="cart-total">0 ₽</span></p>
+
     <div class="cart-actions">
-      <a class="btn btn-outline" href="catalog.html">Continue Shopping</a>
-      <a class="btn btn-primary" href="checkout.html">Proceed to Checkout</a>
+      <a class="btn btn-outline" href="/catalog.html">Продолжить покупки</a>
+      <a class="btn btn-primary" href="/checkout.html">Оформить заказ</a>
     </div>
   </main>
+
   <footer class="footer">
-    <p>© Le désir d’être 2026</p>
+    <p>© Le désir d'être 2026</p>
   </footer>
 
-<!--  <script src="js/cart.js"></script>-->
-<!--  <script src="js/cart-page.js"></script>-->
+  <script type="module" src="js/pages/cart.js"></script>
 </body>
 </html>

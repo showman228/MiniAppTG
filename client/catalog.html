@@ -1,43 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catalog - Le désir d’être</title>
+  <title>Каталог - Le désir d'être</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shop.css"/>
 </head>
 <body class="shop-body">
-  <!-- Переиспользуемая шапка сайта, вставляется через JS -->
+
+  <!-- Шапка вставляется через renderHeader() в catalog.js -->
   <div id="header-slot"></div>
 
   <main class="page-section container">
     <div class="catalog-layout">
+
       <!-- Левая колонка: фильтр по категориям -->
+      <!-- data-category="all" — специальное значение "все товары" -->
+      <!-- data-category="1"   — id категории с бэкенда -->
       <aside class="card sidebar">
-        <h2>Фильтр по коллекицям</h2>
+        <h2>Фильтр по коллекциям</h2>
         <ul class="category-list">
-          <li><button class="category-btn active" data-category="Все коллекции">Все коллекции</button></li>
-          <li><button class="category-btn" data-category="Коллекция №4">Коллекция №4</button></li>
-          <li><button class="category-btn" data-category="«СОПРОТИВЛЕНИЕ»’C">«СОПРОТИВЛЕНИЕ»’C</button></li>
-          <li><button class="category-btn" data-category="«Transylvania»’c">«Transylvania»’c</button></li>
-          <li><button class="category-btn" data-category="«HERBIER» collection">«HERBIER» collection</button></li>
+          <li><button class="category-btn active" data-category="all">Все коллекции</button></li>
+          <li><button class="category-btn" data-category="1">Коллекция №4</button></li>
+          <li><button class="category-btn" data-category="2">«СОПРОТИВЛЕНИЕ»</button></li>
+          <li><button class="category-btn" data-category="3">«Transylvania»</button></li>
+          <li><button class="category-btn" data-category="4">«HERBIER» collection</button></li>
         </ul>
       </aside>
 
       <!-- Правая колонка: количество и сетка карточек -->
       <section>
-        <p class="products-meta" id="products-count">13 products found</p>
+        <p class="products-meta" id="products-count"></p>
         <div class="products-grid" id="products-grid"></div>
       </section>
+
     </div>
   </main>
+
   <footer class="footer">
-    <p>© Le désir d’être 2026</p>
+    <p>© Le désir d'être 2026</p>
   </footer>
-<!--  <script src="js/api.js"></script>-->
-<!--  <script src="js/products.js"></script>-->
-<!--  <script src="js/cart.js"></script>-->
-<!--  <script src="js/catalog.js"></script>-->
+
+  <!-- type="module" обязателен чтобы работали import/export -->
+  <script type="module" src="js/pages/catalog.js"></script>
 </body>
 </html>
