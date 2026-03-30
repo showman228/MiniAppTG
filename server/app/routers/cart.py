@@ -10,7 +10,7 @@ from server.app.schemas.cart import CartResponse, CartItemCreate, CartItemUpdate
 
 
 router = APIRouter(
-    prefix="/api/cart",
+    prefix="/cart",
     tags=["cart"]
 )
 

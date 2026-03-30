@@ -10,7 +10,7 @@ from server.app.services.order_service import OrderService
 from server.app.schemas.order import OrderListResponse, OrderResponse, OrderCreate, OrderUpdate
 
 router = APIRouter(
-    prefix="/api/order",
+    prefix="/order",
     tags=["order"]
 )
 

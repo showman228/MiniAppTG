@@ -8,7 +8,7 @@ from server.app.schemas.product import ProductResponse, ProductListResponse
 from server.app.services.product_service import ProductService
 
 router = APIRouter(
-    prefix="/api/products",
+    prefix="/products",
     tags=["products"]
 )
 

@@ -22,8 +22,9 @@ from server.app.routers.order import router as order_router
 app = FastAPI(
     title=settings.APP_NAME,
     debug=settings.DEBUG,
-    docs_url="/api/docs",
-    redoc_url="/api/redoc"
+    root_path = "/api",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
 app.add_middleware(

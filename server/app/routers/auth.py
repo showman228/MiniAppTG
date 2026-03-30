@@ -9,7 +9,7 @@ from server.app.schemas.user import UserCreate
 from server.app.database import get_db
 
 router = APIRouter(
-    prefix="/api/auth",
+    prefix="/auth",
     tags=["auth"],
 )
 
