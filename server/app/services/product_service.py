@@ -14,11 +14,11 @@ class ProductService:
         self.category_crud = CRUDCategory(db)
         self.product_crud = CRUDProduct(db)
 
-    async def get_all_products(self) -> List[ProductResponse]:
+    async def get_all_products(self) -> ProductListResponse:
         products = await self.product_crud.get_all_products()
         return [ProductResponse.model_validate(prod) for prod in products]
 
-    async def get_products_by_category(self, category_id: int) -> List[ProductResponse]:
+    async def get_products_by_category(self, category_id: int) -> ProductListResponse:
         category = await self.category_crud.get_by_id(category_id)
         if category is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found by category_id")

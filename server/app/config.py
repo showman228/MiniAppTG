@@ -6,7 +6,7 @@ from pydantic import Field
 
 class Settings(BaseSettings):
     APP_NAME: str = "MiniAppTG"
-    DEBUG: bool = True  # ВЫКЛЮЧИТЬ НАХУЙ ПРИ ПРОДАКШЕНЕ
+    DEBUG: bool = os.environ.get("DEBUG")  # ВЫКЛЮЧИТЬ НАХУЙ ПРИ ПРОДАКШЕНЕ
     DATABASE_URL: str = os.environ.get("DATABASE_URL")
 
     SECRET_KEY: str = os.environ.get("SECRET_KEY")

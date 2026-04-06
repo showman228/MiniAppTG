@@ -41,6 +41,6 @@ class OrderService:
 
     async def delete_order(self, order_id: int) -> bool:
         order = await self.order_crud.delete(order_id)
-        if order is None:
+        if not order:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found by order_id")
         return True
