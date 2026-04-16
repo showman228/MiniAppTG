@@ -22,6 +22,9 @@ class Settings(BaseSettings):
         "http://127.0.0.1:3000"
     ]
 
+    def get_url_db(self) -> str:
+        return 'postgresql+asyncpg://postgres:postgres@127.0.0.1:5432/mini_app_db'
+
     base_dir: ClassVar[str] = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     static_path: ClassVar[str] = os.path.join(base_dir, "static")
     images_path: ClassVar[str] = os.path.join(static_path, "images")
