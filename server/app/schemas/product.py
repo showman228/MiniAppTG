@@ -4,7 +4,7 @@ from typing import Optional, List
 from server.app.schemas.category import CategoryResponse
 
 class ProductBase(BaseModel):
-    name: str = Field(..., min_length=5, max_length=250, description="Product name")
+    name: str = Field(..., max_length=250, description="Product name")
     description: str = Field(None, description="Product description")
     price: int = Field(..., gt=0, description="Product price")
     category_id: int = Field(..., description="category id")

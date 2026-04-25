@@ -3,77 +3,118 @@ import { getCategories }    from '../api/categories.js';
 import { addToCart }        from '../store/cart.js';
 import { renderHeader, syncCartBadge } from '../components/header.js';
 
-renderHeader();
-syncCartBadge();
+console.log('[catalog] script loaded');
 
-const grid    = document.getElementById('products-grid');
-const countEl = document.getElementById('products-count');
-const buttons = document.querySelectorAll('[data-category]');
+const PLACEHOLDER = '/assets/images/placeholder.jpg';
 
-let allProducts = [];   // все товары с бэкенда
-let active = 'all';     // текущая выбранная категория
+// Безопасное экранирование текста, попадающего в innerHTML
+function escapeHtml(s) {
+    return String(s ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
 
-// Фильтрует и рендерит карточки товаров
-function render() {
-    const filtered = active === 'all'
-        ? allProducts
-        : allProducts.filter((p) => p.category_id === Number(active));
-
-    countEl.textContent = `${filtered.length} товаров`;
-
-    if (!filtered.length) {
-        grid.innerHTML = '<p style="padding:20px;color:#888;">Товаров в этой категории нет.</p>';
-        return;
-    }
-
-    grid.innerHTML = filtered.map((p) => `
+function productCard(p) {
+    const img = p.image_url || PLACEHOLDER;
+    const cat = p.category && p.category.name ? p.category.name : '';
+    return `
         <article class="card product-card" data-id="${p.id}">
-            <img src="${p.image_url || '/assets/images/placeholder.jpg'}" alt="${p.name}">
+            <img src="${escapeHtml(img)}"
+                 alt="${escapeHtml(p.name)}"
+                 onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
             <div class="product-card__body">
-                <span class="badge">${p.category?.name || ''}</span>
-                <h3 class="product-name">${p.name}</h3>
-                <p class="product-price">${p.price} ₽</p>
+                <span class="badge">${escapeHtml(cat)}</span>
+                <h3 class="product-name">${escapeHtml(p.name)}</h3>
+                <p class="product-price">${Number(p.price).toLocaleString('ru-RU')} ₽</p>
                 <button class="btn btn-primary" data-add="${p.id}">В корзину</button>
             </div>
         </article>
-    `).join('');
+    `;
 }
 
-// Клик по карточке — переход на товар, клик по кнопке — добавить в корзину
-grid.addEventListener('click', (e) => {
-    const addBtn = e.target.closest('[data-add]');
-    if (addBtn) {
-        e.stopPropagation();
-        const product = allProducts.find((p) => p.id === Number(addBtn.dataset.add));
-        if (product) addToCart(product);
+function init() {
+    renderHeader();
+    syncCartBadge();
+
+    const grid    = document.getElementById('products-grid');
+    const countEl = document.getElementById('products-count');
+    const list    = document.getElementById('category-list');
+
+    if (!grid || !list) {
+        console.error('[catalog] DOM элементы не найдены: grid=%o list=%o', grid, list);
         return;
     }
-    const card = e.target.closest('.product-card');
-    if (card) location.href = `/product.html?id=${card.dataset.id}`;
-});
 
-// Клик по кнопкам категорий
-buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-        active = btn.dataset.category;
-        buttons.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        render();
-    });
-});
+    let allProducts = [];
+    let active = 'all';
 
-// Загрузка товаров с бэкенда
-async function init() {
-    grid.innerHTML = '<p style="padding:20px;">Загрузка...</p>';
-    try {
-        // getProducts() → GET /api/products/ → возвращает { products: [...], total: N }
-        const data = await getProducts();
-        allProducts = data.products ?? data; // на случай если бэкенд вернёт просто массив
-        render();
-    } catch (err) {
-        console.error('[Catalog]', err);
-        grid.innerHTML = `<p style="padding:20px;color:red;">Не удалось загрузить товары.<br><small>${err.message}</small></p>`;
+    function render() {
+        const filtered = active === 'all'
+            ? allProducts
+            : allProducts.filter((p) => p.category_id === Number(active));
+
+        if (countEl) countEl.textContent = `${filtered.length} товаров`;
+
+        if (!filtered.length) {
+            grid.innerHTML = '<p style="padding:20px;color:#888;">Товаров в этой категории нет.</p>';
+            return;
+        }
+
+        grid.innerHTML = filtered.map(productCard).join('');
+        console.log('[catalog] rendered %d cards', filtered.length);
     }
+
+    function bindCategoryClicks() {
+        list.querySelectorAll('[data-category]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                active = btn.dataset.category;
+                list.querySelectorAll('[data-category]').forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
+                render();
+            });
+        });
+    }
+
+    function renderCategories(categories) {
+        const items = categories.map((c) =>
+            `<li><button class="category-btn" data-category="${c.id}">${escapeHtml(c.name)}</button></li>`
+        ).join('');
+        list.insertAdjacentHTML('beforeend', items);
+        bindCategoryClicks();
+    }
+
+    grid.addEventListener('click', (e) => {
+        const addBtn = e.target.closest('[data-add]');
+        if (addBtn) {
+            e.stopPropagation();
+            const product = allProducts.find((p) => p.id === Number(addBtn.dataset.add));
+            if (product) addToCart(product);
+            return;
+        }
+        const card = e.target.closest('.product-card');
+        if (card) location.href = `/product.html?id=${card.dataset.id}`;
+    });
+
+    grid.innerHTML = '<p style="padding:20px;">Загрузка...</p>';
+
+    Promise.all([getProducts(), getCategories()])
+        .then(([products, categories]) => {
+            allProducts = Array.isArray(products) ? products : (products?.products ?? []);
+            console.log('[catalog] loaded %d products, %d categories', allProducts.length, categories.length);
+            renderCategories(categories);
+            render();
+        })
+        .catch((err) => {
+            console.error('[catalog] load failed:', err);
+            grid.innerHTML = `<p style="padding:20px;color:red;">Не удалось загрузить товары.<br><small>${escapeHtml(err.message)}</small></p>`;
+        });
 }
 
-init();
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}

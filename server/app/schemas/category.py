@@ -1,16 +1,14 @@
 from pydantic import BaseModel, Field
 import re
 
-class CategoryBase(BaseModel):
-    name: str = Field(..., min_length=5, max_length=25, description="Name of category")
-    slug: str = Field(..., min_length=5, max_length=25, pattern=r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+class CategoryCreate(BaseModel):
+    name: str = Field(..., description="Name of category")
+    slug: str = Field(..., pattern=r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
 
-
-class CategoryCreate(CategoryBase):
-    pass
-
-class CategoryResponse(CategoryBase):
+class CategoryResponse(BaseModel):
     id: int = Field(..., description="Unique identifier for this category")
+    name: str
+    slug: str
 
     class Config:
         from_attributes = True

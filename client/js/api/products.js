@@ -1,7 +1,7 @@
 import { get } from './client.js';
 
 export async function getProducts() {
-    return get("/products");
+    return get("/products/");
 }
 
 export async function getProductById(productId) {

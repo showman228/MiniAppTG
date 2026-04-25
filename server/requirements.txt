@@ -6,6 +6,7 @@ uvicorn[standard]==0.32.1          # ASGI-сервер с uvloop + httptools
 sqlalchemy[asyncio]==2.0.36        # Async ORM
 asyncpg==0.30.0                    # Async PostgreSQL драйвер
 alembic==1.14.0                    # Миграции БД
+psycopg2-binary==2.9.10
 
 # ── Validation & Settings ──────────────────────────────────────
 pydantic>=2.7.0,<2.10              # Совместимо с aiogram + pydantic-settings
@@ -30,4 +31,3 @@ pillow==11.0.0                     # Обработка изображений
 # ── Dev / Testing ──────────────────────────────────────────────
 pytest==8.3.4
 pytest-asyncio==0.24.0
-httpx==0.28.1                      # Тест-клиент для FastAPI

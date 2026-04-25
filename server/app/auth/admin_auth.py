@@ -1,16 +1,28 @@
 import os
+import secrets
+
 from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
-from starlette.responses import RedirectResponse
+
+from server.app.config import settings
+
+
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+
 
 class AdminAuth(AuthenticationBackend):
     async def login(self, request: Request) -> bool:
         form = await request.form()
-        username = form.get("username")
-        password = form.get("password")
+        username = form.get("username") or ""
+        password = form.get("password") or ""
 
-        # Для начала можно сделать простую проверку (потом заменим на поиск в БД)
-        if username == "admin" and password == "12345":
+        if not ADMIN_PASSWORD:
+            return False
+
+        ok_user = secrets.compare_digest(username, ADMIN_USERNAME)
+        ok_pass = secrets.compare_digest(password, ADMIN_PASSWORD)
+        if ok_user and ok_pass:
             request.session.update({"token": "admin_access"})
             return True
         return False
@@ -20,10 +32,7 @@ class AdminAuth(AuthenticationBackend):
         return True
 
     async def authenticate(self, request: Request) -> bool:
-        token = request.session.get("token")
-        if not token:
-            return False
-        return True
+        return bool(request.session.get("token"))
 
-# Секретный ключ для шифрования сессий (можно взять из вашего config.py)
-authentication_backend = AdminAuth(secret_key=os.environ.get("SECRET_KEY"))
+
+authentication_backend = AdminAuth(secret_key=settings.SECRET_KEY)

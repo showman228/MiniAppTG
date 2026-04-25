@@ -1,7 +1,7 @@
 import { get } from './client.js';
 
 export async function getCategories() {
-    return get("/category");
+    return get("/category/");
 }
 
 export async function getCategoryById(categoryId) {
