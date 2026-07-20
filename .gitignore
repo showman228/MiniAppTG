@@ -1,4 +1,4 @@
-# Python
+
 __pycache__/
 *.py[cod]
 *$py.class
@@ -7,25 +7,27 @@ __pycache__/
 build/
 dist/
 
-# Virtual env
+
 .venv/
 venv/
 env/
 
-# Environment
+
 .env
 .env.local
 .env.*.local
 
-# IDE / OS
+
 .idea/
 .vscode/
 .DS_Store
 
-# Tests / coverage
+
 .pytest_cache/
 .coverage
 htmlcov/
 
-# Alembic temp
+
 server/migrations/script.py.mako
+
+Todo.txt

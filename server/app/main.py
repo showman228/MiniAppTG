@@ -2,25 +2,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from sqladmin import Admin
-from server.app.models.admin.user import UserAdmin
-from server.app.models.admin.product import ProductAdmin
-from server.app.models.admin.order import OrderAdmin
-
-from server.app.database import engine
 from server.app.config import settings
-from server.app.auth.admin_auth import authentication_backend
 
-from server.app.routers.auth import router as auth_router
 from server.app.routers.category import router as category_router
 from server.app.routers.product import router as product_router
 from server.app.routers.cart import router as cart_router
 from server.app.routers.order import router as order_router
+from .database import init_db
 
 app = FastAPI(
     title=settings.APP_NAME,
     debug=settings.DEBUG,
-    root_path = "/api",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -33,18 +25,16 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.mount("/static", StaticFiles(directory=settings.static_path), name="static")
+app.mount("/static", StaticFiles(directory=settings.static_dir), name="static")
 
-admin = Admin(app, engine, authentication_backend=authentication_backend)
-admin.add_view(OrderAdmin)
-admin.add_view(ProductAdmin)
-admin.add_view(UserAdmin)
-
-app.include_router(auth_router)
 app.include_router(category_router)
 app.include_router(product_router)
 app.include_router(cart_router)
 app.include_router(order_router)
+
+@app.on_event("startup")
+async def on_startup():
+    await init_db()
 
 @app.get("/")
 async def root():

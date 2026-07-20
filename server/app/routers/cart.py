@@ -29,15 +29,15 @@ class RemoveFromCartRequest(BaseModel):
 class CartDetailsRequest(BaseModel):
     cart_data: Dict[int, int] = Field(default_factory=dict, description="product_id → quantity")
 
-@router.post("/add", status_code=status.HTTP_201_CREATED)
+@router.post("/add", status_code=status.HTTP_201_CREATED, response_model=CartResponse)
 async def add_to_cart(request: AddToCartRequest, db: AsyncSession = Depends(get_db)):
     service = CartService(db)
     item = CartItemCreate(
         product_id=request.product_id,
         quantity=request.quantity
     )
-    update_cart = await service.add_to_cart(cart_dict=request.cart, item=item)
-    return {"cart": update_cart}
+    updated_cart = await service.add_to_cart(cart_dict=request.cart, item=item)
+    return await service.get_details_of_cart(updated_cart)
 
 @router.post("/details", response_model=CartResponse, status_code=status.HTTP_200_OK)
 async def get_cart_details(body: CartDetailsRequest, db: AsyncSession = Depends(get_db)):
@@ -54,8 +54,8 @@ async def update_cart(request: UpdateCartRequest, db: AsyncSession = Depends(get
     updated_cart = await service.update_cart(cart_dict=request.cart, item=item)
     return {"cart": updated_cart}
 
-@router.post("/remove", status_code=status.HTTP_200_OK)
+@router.post("/remove", status_code=status.HTTP_200_OK, response_model=CartResponse)
 async def remove_from_cart(request: RemoveFromCartRequest, db: AsyncSession = Depends(get_db)):
     service = CartService(db)
     updated_cart = await service.remove_cart(product_id=request.product_id, cart_dict=request.cart)
-    return {"cart": updated_cart}
+    return await service.get_details_of_cart(updated_cart)

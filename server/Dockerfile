@@ -1,17 +1,19 @@
 FROM python:3.13-slim
 
-WORKDIR /app
-
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONPATH=/app
+    PYTHONPATH=/app \
+    POETRY_VIRTUALENVS_CREATE=false
 
-COPY server/requirements.txt .
+RUN pip install --no-cache-dir poetry
 
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock ./
+RUN poetry install --no-root --only main
 
 COPY . .
 
-RUN pip install -e .
+EXPOSE 8000
 
-CMD ["python", "-m", "uvicorn", "server.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python3", "-m", "uvicorn", "server.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
