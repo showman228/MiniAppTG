@@ -8,6 +8,8 @@ from server.app.routers.category import router as category_router
 from server.app.routers.product import router as product_router
 from server.app.routers.cart import router as cart_router
 from server.app.routers.order import router as order_router
+from server.app.routers.demo_auth.views import router as demo_auth_router
+
 from .database import init_db
 
 app = FastAPI(
@@ -31,10 +33,13 @@ app.include_router(category_router)
 app.include_router(product_router)
 app.include_router(cart_router)
 app.include_router(order_router)
+app.include_router(demo_auth_router)
+
 
 @app.on_event("startup")
 async def on_startup():
     await init_db()
+
 
 @app.get("/")
 async def root():
@@ -42,6 +47,7 @@ async def root():
         "message": "Welcome to MiniAPPTG",
         "docs": "/api/docs"
     }
+
 
 @app.get("/health")
 async def health():
