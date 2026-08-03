@@ -31,3 +31,5 @@ htmlcov/
 server/migrations/script.py.mako
 
 Todo.txt
+
+docs/superpowers/
