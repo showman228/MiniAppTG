@@ -5,6 +5,7 @@ from server.app.config import settings
 engine = create_async_engine(
     settings.get_url_db,
     echo=settings.DEBUG,
+    pool_pre_ping=True,
 )
 
 SessionLocal = async_sessionmaker(

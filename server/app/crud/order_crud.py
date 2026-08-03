@@ -22,9 +22,9 @@ class CRUDOrder:
         orders = await self.db.execute(select(Order))
         return list(orders.scalars().all())
 
-    async def create(self, order_data: OrderCreate) -> Optional[Order]:
+    async def create(self, order_data: OrderCreate, user_id: int) -> Optional[Order]:
         order = Order(
-            user_id=order_data.user_id,
+            user_id=user_id,
             product_id=order_data.product_id,
             quantity=order_data.quantity,
             price=order_data.price,

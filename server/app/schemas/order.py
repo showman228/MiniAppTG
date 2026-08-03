@@ -1,16 +1,15 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import List, Optional
+from typing import List
 
 class OrderBase(BaseModel):
-    user_id: int = Field(..., description="user id")
     product_id: int = Field(..., description="Product ID")
     quantity: int = Field(..., gt=0, description="Кол-во товаров")
     price: int = Field(..., gt=0, description="Цена за товар")
     total_price: int = Field(..., gt=0, description="Общая сумма товаров")
 
 class OrderCreate(OrderBase):
-    user_id: Optional[int] = None
+    pass
 
 class OrderUpdate(OrderBase):
     pass
@@ -30,4 +29,3 @@ class OrderResponse(BaseModel):
 class OrderListResponse(BaseModel):
     orders: List[OrderResponse]
     total_price: int = Field(..., gt=0, description="Ценик за все товары")
-

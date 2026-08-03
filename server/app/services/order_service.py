@@ -29,8 +29,8 @@ class OrderService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
         return OrderResponse.model_validate(order)
 
-    async def create_order(self, order_data: OrderCreate) -> OrderResponse:
-        order = await self.order_crud.create(order_data)
+    async def create_order(self, order_data: OrderCreate, user_id: int) -> OrderResponse:
+        order = await self.order_crud.create(order_data, user_id)
         return OrderResponse.model_validate(order)
 
     async def update_order(self, order_id: int, order_data: OrderUpdate) -> OrderResponse:

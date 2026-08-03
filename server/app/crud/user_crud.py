@@ -3,8 +3,8 @@ from server.app.schemas.user import UserCreate
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 from typing import Optional, List
+
 
 class CRUDUser:
     def __init__(self, db: AsyncSession):
@@ -18,13 +18,18 @@ class CRUDUser:
         user = await self.db.execute(select(User).where(User.id == user_id))
         return user.scalars().one_or_none()
 
-    async def get_by_telegram_id(self, telegram_id: str) -> Optional[User]:
-        user = await self.db.execute(select(User).where(User.telegram_id == telegram_id))
+    async def get_by_email(self, email: str) -> Optional[User]:
+        user = await self.db.execute(select(User).where(User.email == email))
         return user.scalars().one_or_none()
 
-    async def create(self, user_data: UserCreate) -> Optional[User]:
+    async def get_by_username(self, username: str) -> Optional[User]:
+        user = await self.db.execute(select(User).where(User.username == username))
+        return user.scalars().one_or_none()
+
+    async def create(self, user_data: UserCreate, password_hash: str) -> User:
         user = User(
-            telegram_id=user_data.telegram_id,
+            email=user_data.email,
+            password_hash=password_hash,
             username=user_data.username,
             firstname=user_data.firstname
         )
@@ -40,7 +45,7 @@ class CRUDUser:
         if user is None:
             return None
 
-        for field, value in user_data.model_dump(exclude_unset=True).items():
+        for field, value in user_data.model_dump(exclude_unset=True, exclude={"password"}).items():
             setattr(user, field, value)
 
         await self.db.commit()
