@@ -32,7 +32,9 @@ services:
       db:
         condition: service_healthy
     volumes:
+      - .:/app
       - ./server/static:/app/static
+    command: python3 -m uvicorn server.app.main:app --host 0.0.0.0 --port 8000 --reload
 
 volumes:
   postgres_data:
