@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int
     POSTGRES_DB: str
 
+    SECRET_KEY: str
+
     APP_NAME: str = "STRL_SHOP"
     DEBUG: bool = True
 

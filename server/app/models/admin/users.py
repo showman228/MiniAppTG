@@ -7,4 +7,5 @@ class UsersAdmin(ModelView, model=User):
         User.email,
         User.firstname,
         User.username,
+        User.is_admin,
     ]

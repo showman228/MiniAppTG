@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 from server.app.config import settings
 from server.app.middlewares.process_time import ProcessTimeMiddleware
+from server.app.core.admin_auth import AdminAuth
 
 from server.app.models.admin.users import UsersAdmin
 from server.app.models.admin.categories import CategoriesAdmin
@@ -26,7 +27,7 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-admin = Admin(app, engine)
+admin = Admin(app, engine, authentication_backend=AdminAuth(secret_key=settings.SECRET_KEY))
 
 app.add_middleware(
     CORSMiddleware,
