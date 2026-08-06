@@ -12,7 +12,7 @@ class CRUDUser:
 
     async def get_all(self) -> List[User]:
         users = await self.db.execute(select(User))
-        return list(users.scalars().all())
+        return users.scalars().all()
 
     async def get_by_id(self, user_id: int) -> Optional[User]:
         user = await self.db.execute(select(User).where(User.id == user_id))

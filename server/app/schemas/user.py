@@ -7,7 +7,7 @@ class UserBase(BaseModel):
     firstname: Optional[str] = None
 
 class UserCreate(UserBase):
-    password: str = Field(..., min_length=8, description="Пароль в открытом виде, только на вход")
+    password: str = Field(..., description="Пароль в открытом виде, только на вход")
 
 class UserResponse(UserBase):
     id: int = Field(..., description="User ID")

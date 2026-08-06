@@ -16,11 +16,11 @@ class CRUDOrder:
 
     async def get_by_user_id(self, user_id: int) -> List[Order]:
         order = await self.db.execute(select(Order).where(Order.user_id == user_id))
-        return list(order.scalars().all())
+        return order.scalars().all()
 
     async def get_all(self) -> List[Order]:
         orders = await self.db.execute(select(Order))
-        return list(orders.scalars().all())
+        return orders.scalars().all()
 
     async def create(self, order_data: OrderCreate, user_id: int) -> Optional[Order]:
         order = Order(

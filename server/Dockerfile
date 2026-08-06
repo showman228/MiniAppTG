@@ -2,10 +2,10 @@ FROM python:3.13-slim
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONPATH=/app \
-    POETRY_VIRTUALENVS_CREATE=false
+    PYTHONPATH=/app 
 
 RUN pip install --no-cache-dir poetry
+RUN poetry config virtualenvs.create false
 
 WORKDIR /app
 

@@ -1,6 +1,6 @@
 from server.app.crud.order_crud import CRUDOrder
 from server.app.crud.user_crud import CRUDUser
-from server.app.schemas.order import OrderCreate, OrderResponse, OrderUpdate
+from server.app.schemas.order import OrderCreate, OrderListResponse, OrderResponse, OrderUpdate
 
 from typing import List
 
@@ -12,9 +12,11 @@ class OrderService:
         self.order_crud = CRUDOrder(db)
         self.user_crud = CRUDUser(db)
 
-    async def get_all_orders(self) -> List[OrderResponse]:
+    async def get_all_orders(self) -> OrderListResponse:
         orders = await self.order_crud.get_all()
-        return [OrderResponse.model_validate(order) for order in orders]
+        order_responses = [OrderResponse.model_validate(order) for order in orders]
+        total_price = sum(order.total_price for order in order_responses)
+        return OrderListResponse(orders=order_responses, total_price=total_price)
 
     async def get_order_by_user_id(self, user_id: int) -> List[OrderResponse]:
         user = await self.user_crud.get_by_id(user_id)

@@ -23,7 +23,7 @@ class CRUDCategory:
 
     async def get_all(self) -> List[Category]:
         category_crud = await self.db.execute(select(Category))
-        return list(category_crud.scalars().all())
+        return category_crud.scalars().all()
 
     async def create(self,category_data: CategoryCreate) -> Optional[Category]:
         category = Category(
