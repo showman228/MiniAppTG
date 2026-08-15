@@ -1,16 +1,20 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
 
+
 class CartItemBase(BaseModel):
     product_id: int = Field(..., description="Unique product id")
     quantity: int = Field(..., description="Quantity of product")
 
+
 class CartItemCreate(CartItemBase):
     pass
+
 
 class CartItemUpdate(CartItemBase):
     product_id: int = Field(..., description="Unique product id")
     quantity: int = Field(..., description="Quantity of product")
+
 
 class CartItem(BaseModel):
     product_id: int
@@ -19,6 +23,7 @@ class CartItem(BaseModel):
     quantity: int = Field(..., description="Quantity of product")
     image_url: Optional[str] = Field(None, description="Product image url")
     subtotal: float = Field(..., gt=0, description="Subtotal of product")
+
 
 class CartResponse(BaseModel):
     items: List[CartItem] = Field(..., description="List of cart items")

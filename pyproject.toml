@@ -19,7 +19,9 @@ dependencies = [
     "pydantic-settings (>=2.14.2,<3.0.0)",
     "pytest (>=9.1.1,<10.0.0)",
     "sqladmin[full] (>=0.30.0,<0.31.0)",
-    "bcrypt (>=5.0.0,<6.0.0)"
+    "bcrypt (>=5.0.0,<6.0.0)",
+    "alembic (>=1.19.0,<2.0.0)",
+    "black (>=26.5.1,<27.0.0)"
 ]
 
 

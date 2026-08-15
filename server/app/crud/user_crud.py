@@ -31,7 +31,7 @@ class CRUDUser:
             email=user_data.email,
             password_hash=password_hash,
             username=user_data.username,
-            firstname=user_data.firstname
+            firstname=user_data.firstname,
         )
 
         self.db.add(user)
@@ -45,7 +45,9 @@ class CRUDUser:
         if user is None:
             return None
 
-        for field, value in user_data.model_dump(exclude_unset=True, exclude={"password"}).items():
+        for field, value in user_data.model_dump(
+            exclude_unset=True, exclude={"password"}
+        ).items():
             setattr(user, field, value)
 
         await self.db.commit()

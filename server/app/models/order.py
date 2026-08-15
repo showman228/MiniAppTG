@@ -1,7 +1,8 @@
 from server.app.database import Base
 from datetime import datetime, UTC
 from sqlalchemy.orm import relationship
-from  sqlalchemy import Integer, Column, ForeignKey, DateTime
+from sqlalchemy import Integer, Column, ForeignKey, DateTime
+
 
 class Order(Base):
     __tablename__ = "order"

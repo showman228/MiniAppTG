@@ -1,9 +1,13 @@
 from pathlib import Path
-from typing import Union, List
+from typing import Union, List, ClassVar
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+
 class Settings(BaseSettings):
+
+    BASE_DIR: ClassVar[Path] = Path(__file__).parent.parent.parent
+
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_HOST: str
@@ -29,7 +33,9 @@ class Settings(BaseSettings):
     def get_url_db(self) -> str:
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
-    model_config = SettingsConfigDict(env_file=Path(__file__).parent.parent / ".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=BASE_DIR / ".env", extra="ignore"
+    )
 
 
 settings = Settings()

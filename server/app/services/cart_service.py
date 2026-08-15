@@ -2,22 +2,35 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Dict
 
 from server.app.crud.product_crud import CRUDProduct
-from server.app.schemas.cart import CartResponse, CartItem, CartItemUpdate, CartItemCreate
+from server.app.schemas.cart import (
+    CartResponse,
+    CartItem,
+    CartItemUpdate,
+    CartItemCreate,
+)
 
 from fastapi import HTTPException, status
+
 
 class CartService:
 
     def __init__(self, db: AsyncSession):
         self.product_crud = CRUDProduct(db)
 
-    async def add_to_cart(self, item: CartItemCreate, cart_dict: Dict[int, int]) -> Dict[int, int]:
+    async def add_to_cart(
+        self, item: CartItemCreate, cart_dict: Dict[int, int]
+    ) -> Dict[int, int]:
         if item.quantity <= 0:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Quantity must be positive")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Quantity must be positive",
+            )
 
         product = await self.product_crud.get_by_id(item.product_id)
         if not product:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Product not found"
+            )
 
         if item.product_id in cart_dict:
             cart_dict[item.product_id] += item.quantity
@@ -26,12 +39,19 @@ class CartService:
 
         return cart_dict
 
-    async def update_cart(self, cart_dict: Dict[int, int], item: CartItemUpdate) -> Dict[int, int]:
+    async def update_cart(
+        self, cart_dict: Dict[int, int], item: CartItemUpdate
+    ) -> Dict[int, int]:
         if item.product_id not in cart_dict:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found in cart")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Item not found in cart"
+            )
 
         if item.quantity < 0:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Quantity must be non-negative")
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Quantity must be non-negative",
+            )
 
         if item.quantity == 0:
             del cart_dict[item.product_id]
@@ -40,9 +60,13 @@ class CartService:
 
         return cart_dict
 
-    async def remove_cart(self, product_id: int, cart_dict: Dict[int, int]) -> Dict[int, int]:
+    async def remove_cart(
+        self, product_id: int, cart_dict: Dict[int, int]
+    ) -> Dict[int, int]:
         if product_id not in cart_dict:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found in cart")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Item not found in cart"
+            )
         del cart_dict[product_id]
         return cart_dict
 
@@ -67,10 +91,10 @@ class CartService:
 
                 cart_item = CartItem(
                     product_id=product_id,
-                    name = product.name,
-                    price = product.price,
-                    quantity = quantity,
-                    subtotal = subtotal,
+                    name=product.name,
+                    price=product.price,
+                    quantity=quantity,
+                    subtotal=subtotal,
                 )
 
                 cart_items.append(cart_item)
@@ -78,8 +102,5 @@ class CartService:
                 items_count += quantity
 
         return CartResponse(
-            items=cart_items,
-            total=total_price,
-            items_count=items_count
+            items=cart_items, total=total_price, items_count=items_count
         )
-

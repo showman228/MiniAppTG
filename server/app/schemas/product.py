@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Optional, List
 from server.app.schemas.category import CategoryResponse
 
+
 class ProductBase(BaseModel):
     name: str = Field(..., max_length=250, description="Product name")
     description: str = Field(None, description="Product description")
@@ -10,8 +11,10 @@ class ProductBase(BaseModel):
     category_id: int = Field(..., description="category id")
     image_url: Optional[str] = Field(None, description="Product image url")
 
+
 class ProductCreate(ProductBase):
     pass
+
 
 class ProductResponse(BaseModel):
     id: int = Field(..., description="Product id")
@@ -25,6 +28,7 @@ class ProductResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class ProductListResponse(BaseModel):
     products: List[ProductResponse]

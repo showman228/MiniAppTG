@@ -21,20 +21,19 @@ from server.app.routers.user import router as user_router
 from .database import init_db, engine
 
 app = FastAPI(
-    title=settings.APP_NAME,
-    debug=settings.DEBUG,
-    docs_url="/docs",
-    redoc_url="/redoc"
+    title=settings.APP_NAME, debug=settings.DEBUG, docs_url="/docs", redoc_url="/redoc"
 )
 
-admin = Admin(app, engine, authentication_backend=AdminAuth(secret_key=settings.SECRET_KEY))
+admin = Admin(
+    app, engine, authentication_backend=AdminAuth(secret_key=settings.SECRET_KEY)
+)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
 
 app.add_middleware(ProcessTimeMiddleware)
@@ -60,10 +59,7 @@ async def on_startup():
 
 @app.get("/")
 async def root():
-    return {
-        "message": "Welcome to MiniAPPTG",
-        "docs": "/api/docs"
-    }
+    return {"message": "Welcome to MiniAPPTG", "docs": "/api/docs"}
 
 
 @app.get("/health")

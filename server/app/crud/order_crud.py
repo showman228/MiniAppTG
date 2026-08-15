@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from typing import Optional, List
 
+
 class CRUDOrder:
     def __init__(self, db: AsyncSession):
         self.db = db
@@ -28,7 +29,7 @@ class CRUDOrder:
             product_id=order_data.product_id,
             quantity=order_data.quantity,
             price=order_data.price,
-            total_price=order_data.total_price
+            total_price=order_data.total_price,
         )
 
         self.db.add(order)

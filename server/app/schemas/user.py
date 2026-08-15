@@ -1,13 +1,16 @@
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 
+
 class UserBase(BaseModel):
     email: EmailStr
     username: Optional[str] = None
     firstname: Optional[str] = None
 
+
 class UserCreate(UserBase):
     password: str = Field(..., description="Пароль в открытом виде, только на вход")
+
 
 class UserResponse(UserBase):
     id: int = Field(..., description="User ID")
