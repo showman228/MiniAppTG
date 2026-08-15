@@ -21,6 +21,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 from server.app.database import Base
 from server.app.config import settings
+import server.app.models  # noqa: F401  ensures models are registered on Base.metadata
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
