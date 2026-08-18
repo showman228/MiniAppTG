@@ -3,7 +3,6 @@ from typing import Union, List, ClassVar
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-
 class Settings(BaseSettings):
 
     BASE_DIR: ClassVar[Path] = Path(__file__).parent.parent.parent
@@ -22,8 +21,10 @@ class Settings(BaseSettings):
     CORS_ORIGINS: Union[List[str], str] = [
         "http://localhost:5173",
         "http://localhost:3000",
+        "http://localhost:5500",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
+        "http://127.0.0.1:5500",
     ]
 
     static_dir: str = "static"
@@ -33,9 +34,7 @@ class Settings(BaseSettings):
     def get_url_db(self) -> str:
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
-    model_config = SettingsConfigDict(
-        env_file=BASE_DIR / ".env", extra="ignore"
-    )
+    model_config = SettingsConfigDict(env_file=BASE_DIR / ".env", extra="ignore")
 
 
 settings = Settings()

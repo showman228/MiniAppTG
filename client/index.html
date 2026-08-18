@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ЛАВКА — витрина</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Состояние модалки входа/регистрации. Чекбокс живёт в самом верху body,
+       чтобы селектором ~ дотягиваться до .auth-modal ниже по дереву.
+       TODO JS: когда появится реальная логика, можно продолжать управлять
+       этим же чекбоксом (auth-toggle.checked = true/false) вместо переписывания вёрстки. -->
+  <input type="checkbox" id="auth-toggle" class="visually-hidden" aria-hidden="true">
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="#" class="brand">ЛАВКА</a>
+
+      <div class="site-header__actions">
+        <!-- TODO JS: если пользователь уже авторизован (есть валидная сессия/токен),
+             вместо открытия модалки — вести на страницу профиля (GET /users/me) -->
+        <label for="auth-toggle" class="icon-btn" aria-label="Войти или зарегистрироваться">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.24-8 5v1a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1c0-2.76-3.6-5-8-5Z"/></svg>
+        </label>
+
+        <!-- TODO JS: badge — количество позиций в корзине текущего пользователя (0, если гость) -->
+        <a href="#" class="icon-btn cart-btn" aria-label="Корзина">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12L6 6Zm0 0-1-3H2m6 18a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="cart-btn__count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__inner">
+        <p class="hero__eyebrow">Мини-магазин в Telegram</p>
+        <h1 class="hero__title">Вещи по делу,<br>без лишнего</h1>
+        <p class="hero__tagline">Одежда, аксессуары и гаджеты — прямо в чате, без установки приложений.</p>
+      </div>
+    </section>
+
+    <!-- TODO JS: собрать чипы динамически из GET /categories/
+         (category.name -> подпись, category.slug -> data-category-slug и id инпута).
+         По клику на чип — либо GET /products/category/{id}, либо локальная фильтрация
+         .product-card по совпадению data-category-slug.
+         Ниже — статичный набор для демонстрации внешнего вида; переключение
+         "активного" чипа сделано на чистом CSS (radio-hack), реальной
+         фильтрации товаров здесь нет. -->
+    <nav class="categories" aria-label="Категории товаров">
+      <div class="categories__track">
+        <input type="radio" name="category" id="cat-all" class="visually-hidden" data-category-slug="all" checked>
+        <label for="cat-all" class="chip" data-category-slug="all">Все</label>
+        <!-- Вывод категорий -->
+      </div>
+    </nav>
+
+    <section class="products">
+      <div class="products__head">
+        <h2>Все товары</h2>
+        <!-- TODO JS: total -> ProductListResponse.total -->
+        <span class="products__count">30 товаров</span>
+      </div>
+
+      <!-- TODO JS/backend: карточки ниже — образец разметки на 1 товар.
+           В реальности .products__grid должен наполняться циклом по
+           GET /products/ (или /products/category/{id} при активном фильтре).
+           Поля внутри каждой карточки помечены отдельно. -->
+      <div class="products__grid">
+
+        <article class="product-card" data-category-slug="women">
+          <div class="product-card__media">
+            <!-- TODO: <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy"> -->
+            <span class="product-card__badge product-card__badge--sale">Sale</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Рубашка льняная</h3> <!-- product.name -->
+            <div class="product-card__rating" aria-hidden="true">★★★★★</div> <!-- декоративно, поля рейтинга нет в ProductResponse -->
+            <div class="product-card__row">
+              <span class="product-card__price">3 490 ₽</span> <!-- product.price -->
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="accessories">
+          <div class="product-card__media">
+            <span class="product-card__badge product-card__badge--new">New</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Кепка хлопковая</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★★☆</div>
+            <div class="product-card__row">
+              <span class="product-card__price">1 290 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="women">
+          <div class="product-card__media"></div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Футболка базовая</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★★★</div>
+            <div class="product-card__row">
+              <span class="product-card__price">1 590 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="gadgets">
+          <div class="product-card__media">
+            <span class="product-card__badge product-card__badge--sale">Sale</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Наушники беспроводные</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★★☆</div>
+            <div class="product-card__row">
+              <span class="product-card__price">4 990 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="women">
+          <div class="product-card__media"></div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Куртка лёгкая</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★★★</div>
+            <div class="product-card__row">
+              <span class="product-card__price">6 290 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="accessories">
+          <div class="product-card__media"></div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Сумка через плечо</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★☆☆</div>
+            <div class="product-card__row">
+              <span class="product-card__price">2 890 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="gadgets">
+          <div class="product-card__media">
+            <span class="product-card__badge product-card__badge--new">New</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Колонка портативная</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★★★</div>
+            <div class="product-card__row">
+              <span class="product-card__price">3 190 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="editorials">
+          <div class="product-card__media"></div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Очки солнцезащитные</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★★☆</div>
+            <div class="product-card__row">
+              <span class="product-card__price">1 990 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card" data-category-slug="women">
+          <div class="product-card__media"></div>
+          <div class="product-card__body">
+            <h3 class="product-card__name">Свитшот оверсайз</h3>
+            <div class="product-card__rating" aria-hidden="true">★★★★★</div>
+            <div class="product-card__row">
+              <span class="product-card__price">2 790 ₽</span>
+              <button class="product-card__add" type="button" data-product-id="">
+                В корзину
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Модалка входа/регистрации.
+       Открытие/закрытие: label[for="auth-toggle"] переключает чекбокс #auth-toggle выше.
+       Переключение вкладок Войти/Регистрация: radio-группа authTab ниже.
+       Всё чистый CSS, без script. -->
+  <div class="auth-modal">
+    <label for="auth-toggle" class="auth-modal__backdrop" aria-hidden="true"></label>
+
+    <div class="auth-modal__sheet" role="dialog" aria-modal="true" aria-label="Вход и регистрация">
+      <label for="auth-toggle" class="auth-modal__close" aria-label="Закрыть">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </label>
+
+      <div class="auth-tabs">
+        <input type="radio" name="authTab" id="tab-login" class="visually-hidden" checked>
+        <input type="radio" name="authTab" id="tab-register" class="visually-hidden">
+
+        <div class="auth-tabs__nav">
+          <label for="tab-login" class="auth-tabs__btn">Вход</label>
+          <label for="tab-register" class="auth-tabs__btn">Регистрация</label>
+        </div>
+
+        <!-- TODO backend/JS: в server/app/routers/user.py сейчас нет отдельного
+             эндпоинта логина (только /users/register, /users/me, /users/all_users).
+             Нужно добавить, например, POST /users/login, и после успешного
+             ответа сохранить токен/сессию на клиенте. -->
+        <form class="auth-form auth-form--login" novalidate>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email">
+          </label>
+          <label class="field">
+            <span>Пароль</span>
+            <input type="password" name="password" required autocomplete="current-password">
+          </label>
+          <button type="submit" class="auth-form__submit">Войти</button>
+        </form>
+
+        <!-- TODO JS: submit -> POST /users/register
+             (schemas.user.UserCreate: email + password обязательны,
+             username и firstname опциональны) -->
+        <form class="auth-form auth-form--register" novalidate>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email">
+          </label>
+          <label class="field">
+            <span>Имя пользователя</span>
+            <input type="text" name="username" autocomplete="username">
+          </label>
+          <label class="field">
+            <span>Имя</span>
+            <input type="text" name="firstname" autocomplete="given-name">
+          </label>
+          <label class="field">
+            <span>Пароль</span>
+            <input type="password" name="password" required autocomplete="new-password">
+          </label>
+          <button type="submit" class="auth-form__submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="./js/script.js"></script>
+</body>
+</html>
