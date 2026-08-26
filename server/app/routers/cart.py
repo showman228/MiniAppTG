@@ -52,7 +52,7 @@ async def update_cart(request: UpdateCartRequest, db: AsyncSession = Depends(get
         quantity=request.quantity
     )
     updated_cart = await service.update_cart(cart_dict=request.cart, item=item)
-    return {"cart": updated_cart}
+    return await service.get_details_of_cart(updated_cart)
 
 @router.post("/remove", status_code=status.HTTP_200_OK, response_model=CartResponse)
 async def remove_from_cart(request: RemoveFromCartRequest, db: AsyncSession = Depends(get_db)):

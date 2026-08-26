@@ -33,4 +33,4 @@ class OrderResponse(BaseModel):
 
 class OrderListResponse(BaseModel):
     orders: List[OrderResponse]
-    total_price: int = Field(..., gt=0, description="Ценик за все товары")
+    total_price: int = Field(..., ge=0, description="Ценик за все товары")

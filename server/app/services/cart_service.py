@@ -94,6 +94,7 @@ class CartService:
                     name=product.name,
                     price=product.price,
                     quantity=quantity,
+                    image_url=product.image_url,
                     subtotal=subtotal,
                 )
 

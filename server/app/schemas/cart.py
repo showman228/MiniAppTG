@@ -18,7 +18,7 @@ class CartItemUpdate(CartItemBase):
 
 class CartItem(BaseModel):
     product_id: int
-    name: str = Field(..., min_length=5, max_length=250, description="Product name")
+    name: str = Field(..., max_length=250, description="Product name")
     price: float = Field(..., gt=0, description="Product price")
     quantity: int = Field(..., description="Quantity of product")
     image_url: Optional[str] = Field(None, description="Product image url")
