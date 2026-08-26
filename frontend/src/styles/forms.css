@@ -1,0 +1,378 @@
+/* ==========================================================================
+   Формы: вход, регистрация, поля
+   ========================================================================== */
+
+/* Карточка на месте бывшего bottom-sheet: радиус и тень те же,
+   но position: fixed больше не нужен — формы живут прямо на /profile. */
+.auth-card {
+  max-width: 420px;
+  margin-inline: auto;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-tabs__nav {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  margin: 0 0 20px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+}
+
+.auth-tabs__btn {
+  flex: 1;
+  border: none;
+  background: none;
+  text-align: center;
+  padding: 9px 12px;
+  border-radius: calc(var(--radius-s) - 2px);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.auth-tabs__btn--active {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.field input {
+  padding: 11px 12px;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.field input:focus-visible {
+  border-color: var(--accent-2);
+}
+
+.field__hint {
+  font-weight: 400;
+  font-size: 11px;
+}
+
+.auth-form__error {
+  margin: 0;
+  color: var(--sale);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.auth-form__submit {
+  margin-top: 4px;
+  border: none;
+  border-radius: var(--radius-s);
+  padding: 12px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.auth-form__submit:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.auth-form__submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ==========================================================================
+   Чек — общая форма для корзины и истории заказов
+   ========================================================================== */
+
+.receipt {
+  max-width: 640px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  padding: 4px 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.receipt__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px dashed var(--line);
+}
+
+.receipt__row:first-child {
+  border-top: none;
+}
+
+/* Итог отбит двойной линией — как отрывная часть чека */
+.receipt__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+  border-top: 3px double var(--ink-soft);
+  font-family: var(--font-mono);
+}
+
+.receipt__total-label {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.receipt__total-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* --- строка корзины --- */
+
+.cart-row__media {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-s);
+}
+
+.cart-row__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-row__name {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cart-row__price {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.cart-row__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.cart-row__subtotal {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+}
+
+.qty__btn {
+  border: none;
+  background: var(--canvas);
+  width: 28px;
+  height: 28px;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.qty__btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+.qty__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.qty__value {
+  min-width: 30px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cart-row__remove {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 11px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.cart-row__remove:hover {
+  color: var(--sale);
+}
+
+/* --- строка заказа в профиле --- */
+
+.order-row {
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.order-row__date {
+  color: var(--ink-soft);
+}
+
+.order-row__name {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-body);
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-row__sum {
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Кнопки и блоки профиля
+   ========================================================================== */
+
+.btn-primary {
+  border: none;
+  border-radius: var(--radius-s);
+  padding: 12px 18px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btn-dark {
+  border: none;
+  border-radius: var(--radius-s);
+  padding: 12px 18px;
+  background: var(--ink);
+  color: var(--canvas);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-dark:hover:not(:disabled) {
+  background: var(--accent-2);
+}
+
+.btn-dark:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btn-quiet {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  padding: 9px 14px;
+  background: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.btn-quiet:hover {
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+
+.profile-card {
+  max-width: 640px;
+  margin-bottom: 32px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-card);
+}
+
+.profile-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.profile-card__name {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.profile-card__email {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.section-title {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+.cart-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 640px;
+  margin-top: 20px;
+}
+
+.cart-actions__hint {
+  font-size: 13px;
+  color: var(--ink-soft);
+}

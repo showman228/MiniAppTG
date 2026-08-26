@@ -14,3 +14,6 @@ __pycache__
 *.egg-info
 build
 dist
+node_modules
+frontend/node_modules
+frontend/dist

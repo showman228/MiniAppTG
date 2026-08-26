@@ -36,5 +36,22 @@ services:
       - ./server/static:/app/static
     command: python3 -m uvicorn server.app.main:app --host 0.0.0.0 --port 8000 --reload
 
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: strl_shop_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      API_TARGET: http://app:8000
+    depends_on:
+      - app
+    volumes:
+      - ./frontend:/app
+      # анонимный том: бинд-маунт не должен затирать node_modules из образа
+      - /app/node_modules
+
 volumes:
   postgres_data:

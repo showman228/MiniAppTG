@@ -28,6 +28,10 @@ env/
 htmlcov/
 
 
+node_modules/
+frontend/dist/
+
+
 server/migrations/script.py.mako
 
 Todo.txt
