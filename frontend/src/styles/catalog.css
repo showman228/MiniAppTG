@@ -1,0 +1,282 @@
+/* ==========================================================================
+   Категории — бирки
+   ========================================================================== */
+
+.categories {
+  position: sticky;
+  top: 69px;
+  z-index: 10;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--line);
+}
+
+.categories__track {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 14px 20px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.categories__track::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  --tag-notch: 6px;
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px 9px 22px;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+/* «дырочка» бирки */
+.chip::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  translate: 0 -50%;
+  width: var(--tag-notch);
+  height: var(--tag-notch);
+  border-radius: 999px;
+  border: 1px solid var(--ink-soft);
+  background: var(--canvas);
+}
+
+.chip:hover {
+  border-color: var(--ink-soft);
+}
+
+.chip--active {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: var(--canvas);
+}
+
+.chip--active::before {
+  border-color: var(--canvas);
+  background: var(--accent-2);
+}
+
+/* Бирка-ярлык (не кнопка) — на странице товара */
+.chip--static {
+  cursor: default;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Сетка товаров
+   ========================================================================== */
+
+.products {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 24px 20px 64px;
+}
+
+.products__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.products__head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.products__count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.products__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.product-card__link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Диагональная штриховка — плейсхолдер, когда image_url пустой */
+.media-placeholder {
+  position: relative;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--ink) 6%, transparent) 0 2px,
+      transparent 2px 10px
+    ),
+    color-mix(in srgb, var(--ink) 4%, transparent);
+}
+
+.media-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-card__media {
+  aspect-ratio: 1 / 1;
+}
+
+.product-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 12px;
+}
+
+.product-card__name {
+  margin: 0 0 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.product-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.product-card__price {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.product-card__add {
+  border: none;
+  background: var(--ink);
+  color: var(--canvas);
+  padding: 8px 12px;
+  border-radius: var(--radius-s);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.product-card__add:hover:not(:disabled) {
+  background: var(--accent-2);
+}
+
+.product-card__add:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* ==========================================================================
+   Страница товара
+   ========================================================================== */
+
+.product-page {
+  display: grid;
+  gap: 24px;
+}
+
+.product-page__media {
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+}
+
+.product-page__title {
+  margin: 12px 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5vw, 30px);
+  line-height: 1.15;
+}
+
+.product-page__price {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 26px;
+  margin: 16px 0;
+}
+
+.product-page__description {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 56ch;
+}
+
+.product-page__meta {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.product-page__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+@media (min-width: 900px) {
+  .product-page {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 40px;
+  }
+}
+
+/* ==========================================================================
+   Брейкпоинты сетки
+   ========================================================================== */
+
+@media (min-width: 640px) {
+  .products__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .products__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1180px) {
+  .products__grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

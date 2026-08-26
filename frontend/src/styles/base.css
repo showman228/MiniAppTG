@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Токены
+   ========================================================================== */
+
+:root {
+  --ink: #201a17;
+  --ink-soft: #6b6055;
+  --canvas: #f5f1e8;
+  --surface: #ffffff;
+  --accent: #d98e04;
+  --accent-ink: #201a17;
+  --accent-2: #2f4538;
+  --sale: #b33a2e;
+  --line: #dcd4c4;
+
+  --font-display: "Unbounded", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Golos Text", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+
+  --radius-s: 8px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+  --shadow-sheet: 0 -8px 30px rgba(32, 26, 23, 0.18);
+  --shadow-card: 0 1px 0 rgba(32, 26, 23, 0.04);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #f1ebe0;
+    --ink-soft: #b6ab9c;
+    --canvas: #17140f;
+    --surface: #211c17;
+    --accent: #e6a52c;
+    --accent-ink: #17140f;
+    --accent-2: #6fae86;
+    --sale: #e2604f;
+    --line: #38322a;
+    --shadow-sheet: 0 -8px 30px rgba(0, 0, 0, 0.5);
+    --shadow-card: 0 1px 0 rgba(0, 0, 0, 0.2);
+    color-scheme: dark;
+  }
+}
+
+/* ==========================================================================
+   Сброс и база
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Общая обёртка контента — ширина и поля одинаковые у всех экранов */
+.page {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 24px 20px 64px;
+}
+
+/* ==========================================================================
+   Notice — загрузка / ошибка / пусто
+   ========================================================================== */
+
+.notice {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.notice--error {
+  color: var(--sale);
+}
+
+.notice__action {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--accent-2);
+}

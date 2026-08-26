@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: strl_shop_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-mini_app_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-mini_app_db}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  app:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: strl_shop
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - ./server/static:/app/static
+    command: python3 -m uvicorn server.app.main:app --host 0.0.0.0 --port 8000 --reload
+
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: strl_shop_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      API_TARGET: http://app:8000
+    depends_on:
+      - app
+    volumes:
+      - ./frontend:/app
+      # анонимный том: бинд-маунт не должен затирать node_modules из образа
+      - /app/node_modules
+
+volumes:
+  postgres_data:
